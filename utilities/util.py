@@ -42,3 +42,36 @@ def set_box_vectors(system, box_size):
     a, b, c = get_box_vectors(box_size)
     system.setDefaultPeriodicBoxVectors(a, b, c)
     return system
+
+
+
+def get_temperature_list(min_temp, max_temp, num_replicas):
+    """
+        Given the parameters to define a temperature range as input, this function uses logarithmic spacing to generate a list of intermediate temperatures.
+
+        :param min_temp: The minimum temperature in the temperature list.
+        :type min_temp: `Quantity() <http://docs.openmm.org/development/api-python/generated/simtk.unit.quantity.Quantity.html>`_
+
+        :param max_temp: The maximum temperature in the temperature list.
+        :type max_temp: `Quantity() <http://docs.openmm.org/development/api-python/generated/simtk.unit.quantity.Quantity.html>`_
+
+        :param num_replicas: The number of temperatures in the list.
+        :type num_replicas: int
+
+        :returns:
+           - temperature_list ( 1D numpy array ( float * simtk.unit.temperature ) ) - List of temperatures
+
+    """
+    
+    T_unit = min_temp.unit
+    
+    temperature_list = np.logspace(
+        np.log10(min_temp.value_in_unit(T_unit)),
+        np.log10(max_temp.value_in_unit(T_unit)),
+        num=num_replicas
+        )
+        
+    # Reassign units:
+    temperature_list *= T_unit
+    
+    return temperature_list

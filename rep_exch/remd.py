@@ -6,7 +6,7 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as pyplot
 import numpy as np
 import openmmtools
-from utilities.util import get_box_vectors, set_box_vectors
+from util import get_box_vectors, set_box_vectors
 from matplotlib.backends.backend_pdf import PdfPages
 from matplotlib.colors import Normalize
 from mdtraj import Topology, Trajectory
@@ -776,14 +776,14 @@ def run_replica_exchange(
     thermodynamic_states = list()
 
     # Define thermodynamic states.
-    box_vectors = system.getDefaultPeriodicBoxVectors()
+    # box_vectors = system.getDefaultPeriodicBoxVectors()
     for temperature in temperature_list:
         thermodynamic_state = openmmtools.states.ThermodynamicState(
             system=system, temperature=temperature
         )
         thermodynamic_states.append(thermodynamic_state)
         sampler_states.append(
-            openmmtools.states.SamplerState(positions, box_vectors=box_vectors)
+            openmmtools.states.SamplerState(positions)
         )  # no box vectors, non-periodic system.
 
     # Create and configure simulation object.

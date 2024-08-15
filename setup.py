@@ -7,7 +7,7 @@ with open("README.md", "r") as f:
 
 setup(
     name="openmm_remd",
-    version=__version__,
+    version="0.1.0",
     author="Shanlong Li",
     author_email="shanlongli@umass.edu",
     description="the remd part of cg_openmm package",
